@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<!-- saved from url=(0226)file:///Users/rachelburwick/Library/Application%20Support/Claude/local-agent-mode-sessions/38a2aabe-5204-41f6-bf7b-7520cc90c743/1fc2833e-f61b-44cf-b36f-98497bf482fa/local_bdd94e89-4a89-44d7-9cd8-43e6b7185727/outputs/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Company Goals Tracker</title>
+<script src="./2026 Company Goals Tracker_files/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans,-apple-system,system-ui,sans-serif);background:var(--color-background-tertiary,#f5f5f2);color:var(--color-text-primary,#1a1a18);padding:20px;min-height:100vh;}
+.page{max-width:920px;margin:0 auto;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.header h1{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.badge{font-size:11px;font-weight:500;padding:4px 10px;border-radius:100px;background:var(--color-background-info,#E6F1FB);color:var(--color-text-info,#185FA5);border:0.5px solid var(--color-border-info,rgba(24,95,165,0.3));}
+.sync-btn{font-size:12px;color:var(--color-text-secondary,#888780);cursor:pointer;display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--border-radius-md,8px);border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.12));background:var(--color-background-primary,#fff);font-family:inherit;}
+.sync-btn:hover{background:var(--color-background-secondary,#f0efe8);}
+.sync-btn i{transition:transform 0.3s;}
+.sync-btn.spinning i{animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.arr-card{background:var(--color-background-primary,#fff);border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.12));border-radius:var(--border-radius-lg,12px);padding:20px 24px;margin-bottom:14px;}
+.arr-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px;gap:16px;}
+.arr-left{flex:1;}
+.arr-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary,#aaa);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.arr-numbers{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;}
+.arr-current{font-size:32px;font-weight:500;color:var(--color-text-primary);}
+.arr-target{font-size:16px;color:var(--color-text-tertiary);}
+.arr-pct{font-size:13px;font-weight:500;color:var(--color-text-success,#3B6D11);padding:2px 8px;background:var(--color-background-success,#EAF3DE);border-radius:100px;}
+.arr-bar-wrap{background:var(--color-background-secondary,#f0efe8);border-radius:100px;height:7px;overflow:hidden;margin-bottom:16px;}
+.arr-bar{height:100%;border-radius:100px;background:var(--color-background-success,#3B6D11);transition:width 0.7s cubic-bezier(.4,0,.2,1);min-width:0;}
+.arr-meta{display:flex;gap:0;border-top:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.08));padding-top:14px;}
+.arr-meta-item{flex:1;padding:0 12px;border-right:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.08));}
+.arr-meta-item:first-child{padding-left:0;}
+.arr-meta-item:last-child{border-right:none;}
+.arr-meta-label{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px;}
+.arr-meta-value{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.arr-input-group{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;}
+.arr-input-label{font-size:11px;color:var(--color-text-tertiary);}
+.arr-input{width:130px;padding:8px 12px;font-size:14px;border-radius:var(--border-radius-md,8px);border:0.5px solid var(--color-border-secondary,rgba(0,0,0,0.2));background:var(--color-background-secondary,#f0efe8);color:var(--color-text-primary);font-family:inherit;text-align:center;}
+.arr-input:focus{outline:none;border-color:var(--color-border-info,rgba(24,95,165,0.5));box-shadow:0 0 0 2px rgba(24,95,165,0.1);}
+.arr-input-hint{font-size:10px;color:var(--color-text-tertiary);}
+
+.legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.goals-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;}
+.goal-card{background:var(--color-background-primary,#fff);border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.12));border-radius:var(--border-radius-lg,12px);padding:16px 14px;cursor:pointer;transition:border-color 0.15s;}
+.goal-card:hover{border-color:var(--color-border-secondary,rgba(0,0,0,0.2));}
+.goal-card.selected{border:1.5px solid #185FA5;}
+.goal-icon{font-size:20px;color:var(--color-text-secondary);margin-bottom:8px;}
+.goal-title{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.45;margin-bottom:14px;min-height:34px;}
+.chart-wrap{position:relative;height:120px;margin:0 auto 8px;max-width:160px;}
+.chart-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
+.chart-pct{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1;}
+.chart-sublabel{font-size:9px;color:var(--color-text-tertiary);margin-top:2px;}
+.subcount{font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-bottom:12px;}
+.q-pills{display:flex;gap:3px;}
+.q-pill{flex:1;text-align:center;padding:4px 2px;border-radius:5px;font-size:9px;font-weight:500;border:0.5px solid transparent;}
+.q-done{background:var(--color-background-success,#EAF3DE);color:var(--color-text-success,#27500A);border-color:var(--color-border-success,rgba(59,109,17,0.25));}
+.q-in-progress{background:var(--color-background-info,#E6F1FB);color:var(--color-text-info,#0C447C);border-color:var(--color-border-info,rgba(24,95,165,0.25));}
+.q-at-risk{background:var(--color-background-warning,#FAEEDA);color:var(--color-text-warning,#633806);border-color:var(--color-border-warning,rgba(133,79,11,0.25));}
+.q-upcoming{background:var(--color-background-secondary,#f0efe8);color:var(--color-text-tertiary,#888);}
+
+.detail-panel{background:var(--color-background-primary,#fff);border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.12));border-radius:var(--border-radius-lg,12px);overflow:hidden;margin-bottom:14px;}
+.detail-tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.1));padding:0 16px;background:var(--color-background-secondary,#f8f8f5);}
+.detail-tab{padding:12px 16px;font-size:12px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;white-space:nowrap;transition:color 0.15s;}
+.detail-tab:hover:not(.active){color:var(--color-text-primary);}
+.detail-tab.active{color:#185FA5;border-bottom-color:#185FA5;}
+.detail-body{padding:18px 20px;}
+.q-block{margin-bottom:14px;}
+.q-block:last-child{margin-bottom:0;}
+.q-block-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.q-tag{font-size:10px;font-weight:500;padding:2px 9px;border-radius:100px;flex-shrink:0;}
+.q-block-title{font-size:12px;color:var(--color-text-secondary);flex:1;}
+.q-status-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:100px;flex-shrink:0;}
+.sg-list{display:flex;flex-direction:column;gap:3px;}
+.sg-item{display:flex;align-items:flex-start;gap:8px;padding:6px 10px;border-radius:var(--border-radius-md,8px);background:var(--color-background-secondary,#f8f8f5);font-size:11px;color:var(--color-text-secondary);line-height:1.45;}
+.sg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.block-divider{height:0.5px;background:var(--color-border-tertiary,rgba(0,0,0,0.08));margin:12px 0;}
+
+.partners-card{background:var(--color-background-primary,#fff);border:0.5px solid var(--color-border-tertiary,rgba(0,0,0,0.12));border-radius:var(--border-radius-lg,12px);padding:16px 20px;}
+.partners-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.partners-header h3{font-size:12px;font-weight:500;color:var(--color-text-secondary);}
+.partners-total{font-size:11px;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:3px 10px;border-radius:100px;}
+.partners-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.partner-group-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.partner-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.p-chip{font-size:11px;padding:3px 9px;border-radius:100px;border:0.5px solid var(--color-border-tertiary);}
+.p-chip.carrier{background:var(--color-background-info,#E6F1FB);color:var(--color-text-info,#0C447C);border-color:var(--color-border-info,rgba(24,95,165,0.25));}
+.p-chip.broker{background:var(--color-background-success,#EAF3DE);color:var(--color-text-success,#27500A);border-color:var(--color-border-success,rgba(59,109,17,0.2));}
+.footer{font-size:11px;color:var(--color-text-tertiary);margin-top:10px;text-align:right;}
+</style>
+</head>
+<body>
+<h2 class="sr-only">2026 Pasito company goals progress dashboard showing ARR tracker, goal completion charts, and sub-goal status by quarter</h2>
+<div class="page">
+
+<div class="header">
+  <h1>2026 company goals</h1>
+  <div class="header-right">
+    <span class="badge">Q2 · in progress</span>
+    <button class="sync-btn" id="syncBtn" onclick="syncFromNotion()">
+      <i class="ti ti-refresh" aria-hidden="true"></i> sync from Notion
+    </button>
+  </div>
+</div>
+
+<div class="arr-card">
+  <div class="arr-top">
+    <div class="arr-left">
+      <div class="arr-label">ARR progress</div>
+      <div class="arr-numbers">
+        <span class="arr-current" id="arrDisplay">—</span>
+        <span class="arr-target">/ $13.4M target</span>
+        <span class="arr-pct" id="arrPct" style="display:none"></span>
+      </div>
+    </div>
+    <div class="arr-input-group">
+      <span class="arr-input-label">Enter current ARR to track progress</span>
+      <input class="arr-input" id="arrInput" type="text" placeholder="e.g. 4.2M" aria-label="Current ARR">
+      <span class="arr-input-hint">type 4.2M, 4200000, etc.</span>
+    </div>
+  </div>
+  <div class="arr-bar-wrap" aria-hidden="true">
+    <div class="arr-bar" id="arrBar" style="width:0%"></div>
+  </div>
+  <div class="arr-meta">
+    <div class="arr-meta-item"><div class="arr-meta-label">Q2 target add</div><div class="arr-meta-value">$4M</div></div>
+    <div class="arr-meta-item"><div class="arr-meta-label">Q3 target add</div><div class="arr-meta-value">$5M</div></div>
+    <div class="arr-meta-item"><div class="arr-meta-label">Q4 target add</div><div class="arr-meta-value">$2M</div></div>
+    <div class="arr-meta-item"><div class="arr-meta-label">New logos target</div><div class="arr-meta-value">15</div></div>
+    <div class="arr-meta-item"><div class="arr-meta-label">Active partners</div><div class="arr-meta-value">23</div></div>
+  </div>
+</div>
+
+<div class="legend" aria-label="Status legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>done</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>in progress</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>at risk</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B4B2A9"></div>upcoming</div>
+</div>
+
+<div class="goals-grid" id="goalsGrid"><div class="goal-card selected" role="button" aria-label="Goal 1: Scale to $13.4M ARR by Dec 31, 2026, 47% active">
+      <div class="goal-icon"><i class="ti ti-chart-line" aria-hidden="true"></i></div>
+      <div class="goal-title">Scale to $13.4M ARR by Dec 31, 2026</div>
+      <div class="chart-wrap">
+        <canvas id="gc0" role="img" aria-label="47% of sub-goals are active for goal 1" width="320" height="240" style="display: block; box-sizing: border-box; height: 120px; width: 160px;"></canvas>
+        <div class="chart-center">
+          <div class="chart-pct">47%</div>
+          <div class="chart-sublabel">active</div>
+        </div>
+      </div>
+      <div class="subcount">7 of 15 sub-goals active</div>
+      <div class="q-pills">
+        <div class="q-pill q-at-risk">Q1</div><div class="q-pill q-in-progress">Q2</div><div class="q-pill q-upcoming">Q3</div><div class="q-pill q-upcoming">Q4</div>
+      </div></div><div class="goal-card" role="button" aria-label="Goal 2: Become the AI workspace for employee benefits, 56% active">
+      <div class="goal-icon"><i class="ti ti-cpu" aria-hidden="true"></i></div>
+      <div class="goal-title">Become the AI workspace for employee benefits</div>
+      <div class="chart-wrap">
+        <canvas id="gc1" role="img" aria-label="56% of sub-goals are active for goal 2" width="320" height="240" style="display: block; box-sizing: border-box; height: 120px; width: 160px;"></canvas>
+        <div class="chart-center">
+          <div class="chart-pct">56%</div>
+          <div class="chart-sublabel">active</div>
+        </div>
+      </div>
+      <div class="subcount">9 of 16 sub-goals active</div>
+      <div class="q-pills">
+        <div class="q-pill q-in-progress">Q1</div><div class="q-pill q-in-progress">Q2</div><div class="q-pill q-upcoming">Q3</div><div class="q-pill q-upcoming">Q4</div>
+      </div></div><div class="goal-card" role="button" aria-label="Goal 3: Build a scalable GTM &amp; delivery engine, 69% active">
+      <div class="goal-icon"><i class="ti ti-rocket" aria-hidden="true"></i></div>
+      <div class="goal-title">Build a scalable GTM &amp; delivery engine</div>
+      <div class="chart-wrap">
+        <canvas id="gc2" role="img" aria-label="69% of sub-goals are active for goal 3" width="320" height="240" style="display: block; box-sizing: border-box; height: 120px; width: 160px;"></canvas>
+        <div class="chart-center">
+          <div class="chart-pct">69%</div>
+          <div class="chart-sublabel">active</div>
+        </div>
+      </div>
+      <div class="subcount">11 of 16 sub-goals active</div>
+      <div class="q-pills">
+        <div class="q-pill q-at-risk">Q1</div><div class="q-pill q-in-progress">Q2</div><div class="q-pill q-upcoming">Q3 &amp; Q4</div>
+      </div></div></div>
+
+<div class="detail-panel">
+  <div class="detail-tabs" id="detailTabs"><div class="detail-tab active">Goal 1</div><div class="detail-tab">Goal 2</div><div class="detail-tab">Goal 3</div></div>
+  <div class="detail-body" id="detailBody"><div class="q-block">
+      <div class="q-block-header">
+        <div class="q-tag" style="background:#FAEEDA;color:#633806">Q1</div>
+        <div class="q-block-title">Lock in key relationships</div>
+        <div class="q-status-badge" style="background:#FAEEDA;color:#633806">at risk</div>
+      </div>
+      <div class="sg-list">
+        <div class="sg-item"><div class="sg-dot" style="background:#3B6D11"></div><span>Build and maintain Account Plans for each carrier, broker, and employer</span></div><div class="sg-item"><div class="sg-dot" style="background:#854F0B"></div><span>Move NYL, Lincoln, and HUB seats — 50% deployed by March 31</span></div><div class="sg-item"><div class="sg-dot" style="background:#854F0B"></div><span>Sign ≥3 key accounts (Optum, MMA, USI, Selerix, AON, EPIC, M3, Corp Synergies, Alera)</span></div>
+      </div>
+    </div><div class="block-divider"></div><div class="q-block">
+      <div class="q-block-header">
+        <div class="q-tag" style="background:#E6F1FB;color:#0C447C">Q2</div>
+        <div class="q-block-title">Prove repeatable expansion · add $4M ARR</div>
+        <div class="q-status-badge" style="background:#E6F1FB;color:#0C447C">in progress</div>
+      </div>
+      <div class="sg-list">
+        <div class="sg-item"><div class="sg-dot" style="background:#185FA5"></div><span>Carrier expansion wins: Hartford, Prudential, Capital Group, UNUM, Reliance Matrix, Mutual of Omaha</span></div><div class="sg-item"><div class="sg-dot" style="background:#185FA5"></div><span>Broker expansion wins: IMA, Lockton, Apex</span></div><div class="sg-item"><div class="sg-dot" style="background:#854F0B"></div><span>RFP workflow pilots (2)</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>BenAdmin build pilots (2)</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Claims pilot (1)</span></div><div class="sg-item"><div class="sg-dot" style="background:#185FA5"></div><span>Enterprise employer — decision support + comms ($1M ARR)</span></div>
+      </div>
+    </div><div class="block-divider"></div><div class="q-block">
+      <div class="q-block-header">
+        <div class="q-tag" style="background:#F1EFE8;color:#5F5E5A">Q3</div>
+        <div class="q-block-title">Open enrollment push · add $5M ARR</div>
+        <div class="q-status-badge" style="background:#F1EFE8;color:#5F5E5A">upcoming</div>
+      </div>
+      <div class="sg-list">
+        <div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Convert new carrier revenue: NYL, Lincoln, Sun Life</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Massive activation of employee workflows via broker channel</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Sign first medical carrier</span></div>
+      </div>
+    </div><div class="block-divider"></div><div class="q-block">
+      <div class="q-block-header">
+        <div class="q-tag" style="background:#F1EFE8;color:#5F5E5A">Q4</div>
+        <div class="q-block-title">Cement new partnerships · add $2M ARR</div>
+        <div class="q-status-badge" style="background:#F1EFE8;color:#5F5E5A">upcoming</div>
+      </div>
+      <div class="sg-list">
+        <div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Sign 3 benadmin deals going into 2027</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Sign 3 medical carrier deals going into 2027</span></div><div class="sg-item"><div class="sg-dot" style="background:#D3D1C7"></div><span>Sign 15 total new carrier + broker logos for full-year 2026</span></div>
+      </div>
+    </div></div>
+</div>
+
+<div class="partners-card">
+  <div class="partners-header">
+    <h3>Active partner landscape</h3>
+    <span class="partners-total">23 active in ClickUp</span>
+  </div>
+  <div class="partners-cols">
+    <div>
+      <div class="partner-group-label">
+        <span style="width:7px;height:7px;border-radius:50%;background:#185FA5;display:inline-block;flex-shrink:0"></span>
+        Carriers (9)
+      </div>
+      <div class="partner-chips" id="carrierChips"><div class="p-chip carrier">The Hartford</div><div class="p-chip carrier">SunLife</div><div class="p-chip carrier">Prudential</div><div class="p-chip carrier">New York Life</div><div class="p-chip carrier">Lincoln Financial</div><div class="p-chip carrier">Reliance Matrix</div><div class="p-chip carrier">Capital Group</div><div class="p-chip carrier">Optum</div><div class="p-chip carrier">Mutual of Omaha</div></div>
+    </div>
+    <div>
+      <div class="partner-group-label">
+        <span style="width:7px;height:7px;border-radius:50%;background:#3B6D11;display:inline-block;flex-shrink:0"></span>
+        Brokers (14)
+      </div>
+      <div class="partner-chips" id="brokerChips"><div class="p-chip broker">HUB</div><div class="p-chip broker">IMA</div><div class="p-chip broker">APEX</div><div class="p-chip broker">Lockton East</div><div class="p-chip broker">Lockton Founders</div><div class="p-chip broker">OneDigital SBE</div><div class="p-chip broker">OneDigital EOI</div><div class="p-chip broker">USI</div><div class="p-chip broker">Alera</div><div class="p-chip broker">Gallagher</div><div class="p-chip broker">BSI Corporate</div><div class="p-chip broker">Kapnick</div><div class="p-chip broker">Foundation Risk Partners</div><div class="p-chip broker">Daybright</div></div>
+    </div>
+  </div>
+  <div class="footer" id="syncFooter">Data as of June 12, 2026 — click "sync from Notion" to refresh status</div>
+</div>
+
+</div>
+
+<script>
+const C = {
+  done:        { chart:'#3B6D11', bg:'#EAF3DE', text:'#27500A' },
+  'in-progress':{ chart:'#185FA5', bg:'#E6F1FB', text:'#0C447C' },
+  'at-risk':   { chart:'#854F0B', bg:'#FAEEDA', text:'#633806' },
+  upcoming:    { chart:'#D3D1C7', bg:'#F1EFE8', text:'#5F5E5A' },
+};
+
+const GOALS = [
+  {
+    name:'Scale to $13.4M ARR by Dec 31, 2026', icon:'ti-chart-line',
+    quarters:[
+      { label:'Q1', title:'Lock in key relationships', status:'at-risk', subgoals:[
+        {text:'Build and maintain Account Plans for each carrier, broker, and employer', status:'done'},
+        {text:'Move NYL, Lincoln, and HUB seats — 50% deployed by March 31', status:'at-risk'},
+        {text:'Sign ≥3 key accounts (Optum, MMA, USI, Selerix, AON, EPIC, M3, Corp Synergies, Alera)', status:'at-risk'},
+      ]},
+      { label:'Q2', title:'Prove repeatable expansion · add $4M ARR', status:'in-progress', subgoals:[
+        {text:'Carrier expansion wins: Hartford, Prudential, Capital Group, UNUM, Reliance Matrix, Mutual of Omaha', status:'in-progress'},
+        {text:'Broker expansion wins: IMA, Lockton, Apex', status:'in-progress'},
+        {text:'RFP workflow pilots (2)', status:'at-risk'},
+        {text:'BenAdmin build pilots (2)', status:'upcoming'},
+        {text:'Claims pilot (1)', status:'upcoming'},
+        {text:'Enterprise employer — decision support + comms ($1M ARR)', status:'in-progress'},
+      ]},
+      { label:'Q3', title:'Open enrollment push · add $5M ARR', status:'upcoming', subgoals:[
+        {text:'Convert new carrier revenue: NYL, Lincoln, Sun Life', status:'upcoming'},
+        {text:'Massive activation of employee workflows via broker channel', status:'upcoming'},
+        {text:'Sign first medical carrier', status:'upcoming'},
+      ]},
+      { label:'Q4', title:'Cement new partnerships · add $2M ARR', status:'upcoming', subgoals:[
+        {text:'Sign 3 benadmin deals going into 2027', status:'upcoming'},
+        {text:'Sign 3 medical carrier deals going into 2027', status:'upcoming'},
+        {text:'Sign 15 total new carrier + broker logos for full-year 2026', status:'upcoming'},
+      ]},
+    ]
+  },
+  {
+    name:'Become the AI workspace for employee benefits', icon:'ti-cpu',
+    quarters:[
+      { label:'Q1', title:'Set the foundation', status:'in-progress', subgoals:[
+        {text:'Scale AI extraction (PDF → structured data) + improve AI training feedback loops', status:'in-progress'},
+        {text:'Observable AI agents with QA mechanisms at scale', status:'at-risk'},
+        {text:'Guardrails + metrics and analytics dashboards', status:'in-progress'},
+        {text:'Decouple plan configs for reuse across guides, microsites, decision support, chatbot, RFP', status:'in-progress'},
+        {text:'Agentic UI for carriers and brokers (underwriting, enrollment, support/claims)', status:'in-progress'},
+      ]},
+      { label:'Q2', title:'Expand agentic capabilities', status:'in-progress', subgoals:[
+        {text:'Launch first production workflows beyond enrollment (quoting, underwriting, benadmin)', status:'in-progress'},
+        {text:'Agents that actively edit, version, and update guides and microsites', status:'in-progress'},
+        {text:'Workflow routing + chat-based navigation (AI Benefits Assistant)', status:'in-progress'},
+        {text:'Full white-listing by carriers and brokers', status:'at-risk'},
+      ]},
+      { label:'Q3', title:'Agentic workflows at scale', status:'upcoming', subgoals:[
+        {text:'Enrollment workflows optimized for reliability and scale — all employer workflows in Pasito', status:'upcoming'},
+        {text:'Agent to standardize census files / suggest HRIS integration', status:'upcoming'},
+        {text:'Co-build claims workflows with carriers/brokers', status:'upcoming'},
+        {text:'Expand content creation: presentations, comms, video', status:'upcoming'},
+      ]},
+      { label:'Q4', title:'Platform credibility', status:'upcoming', subgoals:[
+        {text:'Enable clients to build their own agents on Pasito', status:'upcoming'},
+        {text:'Clear roadmap showing quote-to-claim coverage', status:'upcoming'},
+        {text:'Partners interact with clients and each other directly in Pasito', status:'upcoming'},
+      ]},
+    ]
+  },
+  {
+    name:'Build a scalable GTM & delivery engine', icon:'ti-rocket',
+    quarters:[
+      { label:'Q1', title:'Foundation for scale', status:'at-risk', subgoals:[
+        {text:'Operationalize year-round support with SOPs in ClickUp; launch workflows for 50% of clients', status:'done'},
+        {text:'Chatbot pilot launched with 20 groups', status:'done'},
+        {text:'Hartford and SunLife sign first 3 full-service clients each', status:'at-risk'},
+        {text:'Define standard implementation plan for carriers + brokers per product', status:'done'},
+        {text:'Hire and onboard new sales, marketing, AI training, and forward-deployed roles', status:'at-risk'},
+        {text:'Create repeatable playbook for sales + FD teams (pricing, marketing, pitch, FAQs)', status:'in-progress'},
+      ]},
+      { label:'Q2', title:'The machine is working', status:'in-progress', subgoals:[
+        {text:'Formalized training for brokers + carriers to use Pasito (not just refer)', status:'in-progress'},
+        {text:'Marketing constant + enabling partners to sell; measured by partner referrals', status:'in-progress'},
+        {text:'Sales processes + reporting like a well-oiled machine', status:'at-risk'},
+        {text:'FD team has facilitated $300K in new revenue from existing partners', status:'at-risk'},
+        {text:'90% of employers have had product touchpoints with Pasito ahead of Q3', status:'at-risk'},
+      ]},
+      { label:'Q3 & Q4', title:'Operational excellence', status:'upcoming', subgoals:[
+        {text:'Implementation timelines shrink to 1 week per employer', status:'upcoming'},
+        {text:'FD team proactively sets up brokers + carriers for open enrollment success', status:'upcoming'},
+        {text:'Partners self-serve by default; FD focused on enablement, not execution', status:'upcoming'},
+        {text:'Every broker knows Pasito', status:'upcoming'},
+        {text:'FD team facilitates $700K in new revenue from existing partners', status:'upcoming'},
+      ]},
+    ]
+  }
+];
+
+const CARRIERS = ['The Hartford','SunLife','Prudential','New York Life','Lincoln Financial','Reliance Matrix','Capital Group','Optum','Mutual of Omaha'];
+const BROKERS = ['HUB','IMA','APEX','Lockton East','Lockton Founders','OneDigital SBE','OneDigital EOI','USI','Alera','Gallagher','BSI Corporate','Kapnick','Foundation Risk Partners','Daybright'];
+
+let goals = JSON.parse(JSON.stringify(GOALS));
+let selected = 0;
+let charts = [];
+
+function counts(goal) {
+  let d=0,ip=0,ar=0,up=0;
+  goal.quarters.forEach(q=>q.subgoals.forEach(s=>{
+    if(s.status==='done') d++;
+    else if(s.status==='in-progress') ip++;
+    else if(s.status==='at-risk') ar++;
+    else up++;
+  }));
+  return {d,ip,ar,up,total:d+ip+ar+up};
+}
+
+function statusLabel(s){return{done:'done','in-progress':'in progress','at-risk':'at risk',upcoming:'upcoming'}[s]||s;}
+
+function renderCards() {
+  charts.forEach(c=>c.destroy()); charts=[];
+  const grid=document.getElementById('goalsGrid');
+  const tabs=document.getElementById('detailTabs');
+  grid.innerHTML=''; tabs.innerHTML='';
+
+  goals.forEach((g,i)=>{
+    const ct=counts(g);
+    const active=ct.d+ct.ip+ct.ar;
+    const pct=Math.round((active/ct.total)*100);
+
+    const card=document.createElement('div');
+    card.className='goal-card'+(i===selected?' selected':'');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label',`Goal ${i+1}: ${g.name}, ${pct}% active`);
+    card.onclick=()=>select(i);
+    card.innerHTML=`
+      <div class="goal-icon"><i class="ti ${g.icon}" aria-hidden="true"></i></div>
+      <div class="goal-title">${g.name}</div>
+      <div class="chart-wrap">
+        <canvas id="gc${i}" role="img" aria-label="${pct}% of sub-goals are active for goal ${i+1}"></canvas>
+        <div class="chart-center">
+          <div class="chart-pct">${pct}%</div>
+          <div class="chart-sublabel">active</div>
+        </div>
+      </div>
+      <div class="subcount">${active} of ${ct.total} sub-goals active</div>
+      <div class="q-pills">
+        ${g.quarters.map(q=>`<div class="q-pill q-${q.status}">${q.label}</div>`).join('')}
+      </div>`;
+    grid.appendChild(card);
+
+    const tab=document.createElement('div');
+    tab.className='detail-tab'+(i===selected?' active':'');
+    tab.textContent=`Goal ${i+1}`;
+    tab.onclick=()=>select(i);
+    tabs.appendChild(tab);
+
+    requestAnimationFrame(()=>{
+      const el=document.getElementById(`gc${i}`);
+      if(!el) return;
+      const ch=new Chart(el,{
+        type:'doughnut',
+        data:{datasets:[{data:[ct.d,ct.ip,ct.ar,ct.up],backgroundColor:[C.done.chart,C['in-progress'].chart,C['at-risk'].chart,C.upcoming.chart],borderWidth:0,borderRadius:2,hoverOffset:2}]},
+        options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:500}}
+      });
+      charts.push(ch);
+    });
+  });
+}
+
+function renderDetail(idx) {
+  const g=goals[idx];
+  let html='';
+  g.quarters.forEach((q,qi)=>{
+    const col=C[q.status]||C.upcoming;
+    html+=`<div class="q-block">
+      <div class="q-block-header">
+        <div class="q-tag" style="background:${col.bg};color:${col.text}">${q.label}</div>
+        <div class="q-block-title">${q.title}</div>
+        <div class="q-status-badge" style="background:${col.bg};color:${col.text}">${statusLabel(q.status)}</div>
+      </div>
+      <div class="sg-list">
+        ${q.subgoals.map(sg=>{const sc=C[sg.status]||C.upcoming;return`<div class="sg-item"><div class="sg-dot" style="background:${sc.chart}"></div><span>${sg.text}</span></div>`;}).join('')}
+      </div>
+    </div>${qi<g.quarters.length-1?'<div class="block-divider"></div>':''}`;
+  });
+  document.getElementById('detailBody').innerHTML=html;
+}
+
+function select(idx){
+  selected=idx;
+  renderCards();
+  renderDetail(idx);
+}
+
+function renderPartners(){
+  document.getElementById('carrierChips').innerHTML=CARRIERS.map(c=>`<div class="p-chip carrier">${c}</div>`).join('');
+  document.getElementById('brokerChips').innerHTML=BROKERS.map(b=>`<div class="p-chip broker">${b}</div>`).join('');
+}
+
+const TARGET=13.4;
+document.getElementById('arrInput').addEventListener('input',function(){
+  const raw=this.value.trim();
+  let val=parseFloat(raw.replace(/[MmKk$,\s]/g,''));
+  if(raw.toLowerCase().includes('k')) val=val/1000;
+  if(!isNaN(val)&&val>100) val=val/1000000;
+  const pctEl=document.getElementById('arrPct');
+  if(!isNaN(val)&&val>0){
+    document.getElementById('arrDisplay').textContent='$'+val.toFixed(1)+'M';
+    const p=Math.min(Math.round((val/TARGET)*100),100);
+    document.getElementById('arrBar').style.width=p+'%';
+    pctEl.textContent=p+'%';
+    pctEl.style.display='';
+  } else {
+    document.getElementById('arrDisplay').textContent='—';
+    document.getElementById('arrBar').style.width='0%';
+    pctEl.style.display='none';
+  }
+});
+
+async function syncFromNotion(){
+  const btn=document.getElementById('syncBtn');
+  btn.classList.add('spinning');
+  btn.disabled=true;
+  try {
+    const r=await window.cowork.callMcpTool('mcp__95c57f7f-de1d-4786-8ffe-effdaf705ca6__notion-fetch',{id:'37de5cbb-2883-811a-8b3d-c7eecf203c47'});
+    const content=r.structuredContent??JSON.parse(r.content[0].text);
+    const text=content.text||JSON.stringify(content);
+
+    const parsed=await window.cowork.askClaude(
+      `Parse this Notion tracker page for 2026 Pasito company goals. Return ONLY a JSON array of exactly 3 goal objects. Each goal: {"quarters":[{"status":"done|in-progress|at-risk|upcoming","subgoals":[{"status":"done|in-progress|at-risk|upcoming"}]}]}. Preserve the order and count of quarters and sub-goals exactly as in the source page. Return minified JSON only.`,
+      [text]
+    );
+
+    const parsed_goals=JSON.parse(parsed.replace(/```json|```/g,'').trim());
+    if(Array.isArray(parsed_goals)&&parsed_goals.length===3){
+      parsed_goals.forEach((pg,i)=>{
+        if(!pg.quarters) return;
+        pg.quarters.forEach((pq,qi)=>{
+          if(!goals[i]?.quarters[qi]) return;
+          if(pq.status) goals[i].quarters[qi].status=pq.status;
+          if(pq.subgoals) pq.subgoals.forEach((psg,si)=>{
+            if(goals[i].quarters[qi].subgoals[si]&&psg.status) goals[i].quarters[qi].subgoals[si].status=psg.status;
+          });
+        });
+      });
+      document.getElementById('syncFooter').textContent='Synced from Notion · '+new Date().toLocaleString();
+    }
+  } catch(e){
+    document.getElementById('syncFooter').textContent='Sync failed — using cached data';
+  }
+  btn.classList.remove('spinning');
+  btn.disabled=false;
+  renderCards();
+  renderDetail(selected);
+}
+
+renderCards();
+renderDetail(0);
+renderPartners();
+</script>
+
+
+</body></html>
