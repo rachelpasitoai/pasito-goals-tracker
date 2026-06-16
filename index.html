@@ -468,7 +468,7 @@ function renderCards() {
     var ct=counts(g);
     var done=ct.d+ct.dl;
     var active=done+ct.ip+ct.ar;
-    var pct=Math.round((done/ct.total)*100);
+    var pct=Math.round((active/ct.total)*100);
 
     var card=document.createElement('div');
     card.className='goal-card'+(i===selected?' selected':'');
@@ -481,10 +481,10 @@ function renderCards() {
         makeSVGDonut(ct)+
         '<div class="chart-center">'+
           '<div class="chart-pct">'+pct+'%</div>'+
-          '<div class="chart-sublabel">complete</div>'+
+          '<div class="chart-sublabel">active</div>'+
         '</div>'+
       '</div>'+
-      '<div class="subcount">'+done+' of '+ct.total+' sub-goals complete</div>'+
+      '<div class="subcount">'+active+' of '+ct.total+' sub-goals active</div>'+
       '<div class="q-pills">'+
         g.quarters.map(function(q){ return '<div class="q-pill q-'+q.status+'">'+q.label+'</div>'; }).join('')+
       '</div>';
