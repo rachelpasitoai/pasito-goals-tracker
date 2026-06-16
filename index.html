@@ -89,9 +89,23 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 .q-block-title{font-size:12px;color:#666460;flex:1;font-weight:500;}
 .q-status-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;flex-shrink:0;}
 .sg-list{display:flex;flex-direction:column;gap:4px;}
-.sg-item{display:flex;align-items:flex-start;gap:9px;padding:7px 12px;border-radius:9px;background:#f8f8f5;font-size:11px;color:#6b6966;line-height:1.5;transition:background 0.1s;}
+.sg-item{display:flex;align-items:flex-start;gap:9px;padding:7px 12px;border-radius:9px;background:#f8f8f5;font-size:11px;color:#6b6966;line-height:1.5;transition:background 0.12s,box-shadow 0.12s;cursor:pointer;user-select:none;position:relative;}
+.sg-item:hover{box-shadow:0 0 0 1.5px rgba(0,0,0,0.12);}
 .sg-item.sg-done{background:#f0f8e8;color:#4a7a22;}
-.sg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.sg-item.sg-in-progress{background:#eef5fd;color:#0b3d78;}
+.sg-item.sg-at-risk{background:#fdf4e7;color:#5a2e00;}
+.sg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;transition:transform 0.15s;}
+.sg-item:hover .sg-dot{transform:scale(1.4);}
+.sg-text{flex:1;}
+/* status picker popover */
+.sg-picker{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none;background:#fff;border:0.5px solid rgba(0,0,0,0.14);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;overflow:hidden;flex-direction:column;}
+.sg-item:hover .sg-picker{display:flex;}
+.sg-pick-opt{padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.1s;}
+.sg-pick-opt:hover{filter:brightness(0.94);}
+.sg-pick-done{background:#f0f8e8;color:#2d5a0e;}
+.sg-pick-in-progress{background:#eef5fd;color:#0b3d78;}
+.sg-pick-at-risk{background:#fdf4e7;color:#5a2e00;}
+.sg-pick-upcoming{background:#f8f7f2;color:#7a7870;}
 .block-divider{height:0.5px;background:rgba(0,0,0,0.07);margin:14px 0;}
 
 /* ── Partners card ── */
@@ -167,25 +181,25 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 <div class="partners-card">
   <div class="partners-header">
     <h3>Active partner landscape</h3>
-    <span class="partners-total">23 active in ClickUp</span>
+    <span class="partners-total">29 active · ClickUp + HubSpot</span>
   </div>
   <div class="partners-cols">
     <div>
       <div class="partner-group-label">
         <span style="width:7px;height:7px;border-radius:50%;background:#185FA5;display:inline-block"></span>
-        Carriers (9)
+        Carriers (10)
       </div>
       <div class="partner-chips" id="carrierChips"></div>
     </div>
     <div>
       <div class="partner-group-label">
         <span style="width:7px;height:7px;border-radius:50%;background:#3B6D11;display:inline-block"></span>
-        Brokers (14)
+        Brokers (19)
       </div>
       <div class="partner-chips" id="brokerChips"></div>
     </div>
   </div>
-  <div class="footer" id="syncFooter">Data as of June 12, 2026 — click "sync from Notion" to refresh</div>
+  <div class="footer" id="syncFooter">Updated June 16, 2026 · Notion + HubSpot — 6 closed-won deals in 2026, Aetna Pilot & AON RFP in pipeline</div>
 </div>
 
 </div>
@@ -210,15 +224,15 @@ const GOALS = [
       { label:'Q2', title:'Prove repeatable expansion · add $4M ARR', status:'in-progress', subgoals:[
         {text:'Carrier expansion wins: Hartford, Prudential, Capital Group, UNUM, Reliance Matrix, Mutual of Omaha', status:'in-progress'},
         {text:'Broker expansion wins: IMA, Lockton, Apex', status:'in-progress'},
-        {text:'RFP workflow pilots (2)', status:'at-risk'},
+        {text:'RFP workflow pilots (2)', status:'in-progress'},
         {text:'BenAdmin build pilots (2)', status:'upcoming'},
         {text:'Claims pilot (1)', status:'upcoming'},
         {text:'Enterprise employer — decision support + comms ($1M ARR)', status:'in-progress'},
       ]},
-      { label:'Q3', title:'Open enrollment push · add $5M ARR', status:'upcoming', subgoals:[
+      { label:'Q3', title:'Open enrollment push · add $5M ARR', status:'in-progress', subgoals:[
         {text:'Convert new carrier revenue: NYL, Lincoln, Sun Life', status:'upcoming'},
         {text:'Massive activation of employee workflows via broker channel', status:'upcoming'},
-        {text:'Sign first medical carrier', status:'upcoming'},
+        {text:'Sign first medical carrier', status:'in-progress'},
       ]},
       { label:'Q4', title:'Cement new partnerships · add $2M ARR', status:'upcoming', subgoals:[
         {text:'Sign 3 benadmin deals going into 2027', status:'upcoming'},
@@ -262,7 +276,7 @@ const GOALS = [
       { label:'Q1', title:'Foundation for scale', status:'at-risk', subgoals:[
         {text:'Operationalize year-round support with SOPs in ClickUp; launch workflows for 50% of clients', status:'done'},
         {text:'Chatbot pilot launched with 20 groups', status:'done'},
-        {text:'Hartford and SunLife sign first 3 full-service clients each', status:'at-risk'},
+        {text:'Hartford and SunLife sign first 3 full-service clients each', status:'in-progress'},
         {text:'Define standard implementation plan for carriers + brokers per product', status:'done'},
         {text:'Hire and onboard new sales, marketing, AI training, and forward-deployed roles', status:'at-risk'},
         {text:'Create repeatable playbook for sales + FD teams (pricing, marketing, pitch, FAQs)', status:'in-progress'},
@@ -285,13 +299,51 @@ const GOALS = [
   }
 ];
 
-const CARRIERS = ['The Hartford','SunLife','Prudential','New York Life','Lincoln Financial','Reliance Matrix','Capital Group','Optum','Mutual of Omaha'];
-const BROKERS = ['HUB','IMA','APEX','Lockton East','Lockton Founders','OneDigital SBE','OneDigital EOI','USI','Alera','Gallagher','BSI Corporate','Kapnick','Foundation Risk Partners','Daybright'];
+const CARRIERS = ['The Hartford','SunLife','Prudential','New York Life','Lincoln Financial','Reliance Matrix','Capital Group','Optum','Mutual of Omaha','Aetna (Pilot)'];
+const BROKERS = ['HUB','IMA','APEX','Lockton East','Lockton Founders','OneDigital SBE','OneDigital EOI','USI','Alera','Gallagher','BSI Corporate','Kapnick','Foundation Risk Partners','Daybright','NFP','MMA','Mercer','AON','Eastbridge'];
 
 const TARGET = 13.4;
 const LS_KEY = 'pasito_arr_2026';
+const LS_GOALS_KEY = 'pasito_goals_2026';
 
-let goals = JSON.parse(JSON.stringify(GOALS));
+// Load saved goal statuses or fall back to defaults
+function loadGoals() {
+  try {
+    var saved = localStorage.getItem(LS_GOALS_KEY);
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      var base = JSON.parse(JSON.stringify(GOALS));
+      // Merge saved statuses into base (preserves text/structure)
+      parsed.forEach(function(pg, i) {
+        if (!base[i] || !pg.quarters) return;
+        pg.quarters.forEach(function(pq, qi) {
+          if (!base[i].quarters[qi]) return;
+          if (pq.status) base[i].quarters[qi].status = pq.status;
+          if (pq.subgoals) pq.subgoals.forEach(function(psg, si) {
+            if (base[i].quarters[qi].subgoals[si] && psg.status)
+              base[i].quarters[qi].subgoals[si].status = psg.status;
+          });
+        });
+      });
+      return base;
+    }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(GOALS));
+}
+
+function saveGoals() {
+  try {
+    // Save only statuses (not full text) to keep it lean
+    var slim = goals.map(function(g) {
+      return { quarters: g.quarters.map(function(q) {
+        return { status: q.status, subgoals: q.subgoals.map(function(sg) { return { status: sg.status }; }) };
+      })};
+    });
+    localStorage.setItem(LS_GOALS_KEY, JSON.stringify(slim));
+  } catch(e) {}
+}
+
+let goals = loadGoals();
 let selected = 0;
 
 // ── ARR helpers ────────────────────────────────────────────
@@ -440,10 +492,20 @@ function renderDetail(idx) {
         '<div class="q-status-badge" style="background:'+col.bg+';color:'+col.text+'">'+statusLabel(q.status)+'</div>'+
       '</div>'+
       '<div class="sg-list">'+
-        q.subgoals.map(function(sg){
+        q.subgoals.map(function(sg, si){
           var sc=C[sg.status]||C.upcoming;
-          var doneClass = sg.status==='done' ? ' sg-done' : '';
-          return '<div class="sg-item'+doneClass+'"><div class="sg-dot" style="background:'+sc.chart+'"></div><span>'+sg.text+'</span></div>';
+          var statusClass = sg.status==='done' ? ' sg-done' : sg.status==='in-progress' ? ' sg-in-progress' : sg.status==='at-risk' ? ' sg-at-risk' : '';
+          var dataAttr = ' data-gi="'+idx+'" data-qi="'+qi+'" data-si="'+si+'"';
+          return '<div class="sg-item'+statusClass+'"'+dataAttr+' onclick="pickStatus(event,this)">'+
+            '<div class="sg-dot" style="background:'+sc.chart+'"></div>'+
+            '<span class="sg-text">'+sg.text+'</span>'+
+            '<div class="sg-picker" onclick="event.stopPropagation()">'+
+              '<div class="sg-pick-opt sg-pick-done" onclick="setStatus(event,'+idx+','+qi+','+si+',\'done\')">✓ done</div>'+
+              '<div class="sg-pick-opt sg-pick-in-progress" onclick="setStatus(event,'+idx+','+qi+','+si+',\'in-progress\')">● in progress</div>'+
+              '<div class="sg-pick-opt sg-pick-at-risk" onclick="setStatus(event,'+idx+','+qi+','+si+',\'at-risk\')">⚠ at risk</div>'+
+              '<div class="sg-pick-opt sg-pick-upcoming" onclick="setStatus(event,'+idx+','+qi+','+si+',\'upcoming\')">○ upcoming</div>'+
+            '</div>'+
+          '</div>';
         }).join('')+
       '</div>'+
     '</div>'+(qi<g.quarters.length-1?'<div class="block-divider"></div>':'');
@@ -518,6 +580,30 @@ async function syncFromNotion(){
   btn.disabled = false;
   renderCards();
   renderDetail(selected);
+}
+
+// ── Status editing ────────────────────────────────────────
+function pickStatus(e, el) {
+  // Just let the picker show on hover — click does nothing extra
+}
+
+function setStatus(e, gi, qi, si, newStatus) {
+  e.stopPropagation();
+  goals[gi].quarters[qi].subgoals[si].status = newStatus;
+  // Auto-update quarter status to match most severe sub-goal
+  var subs = goals[gi].quarters[qi].subgoals;
+  var hasRisk = subs.some(function(s){ return s.status==='at-risk'; });
+  var hasIP   = subs.some(function(s){ return s.status==='in-progress'; });
+  var allDone = subs.every(function(s){ return s.status==='done'; });
+  var allUp   = subs.every(function(s){ return s.status==='upcoming'; });
+  if (allDone) goals[gi].quarters[qi].status = 'done';
+  else if (allUp) goals[gi].quarters[qi].status = 'upcoming';
+  else if (hasRisk) goals[gi].quarters[qi].status = 'at-risk';
+  else if (hasIP) goals[gi].quarters[qi].status = 'in-progress';
+  saveGoals();
+  renderCards();
+  renderDetail(gi);
+  selected = gi;
 }
 
 // ── Init ───────────────────────────────────────────────────
