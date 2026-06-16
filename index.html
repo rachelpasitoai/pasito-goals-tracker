@@ -70,6 +70,7 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 .q-pills{display:flex;gap:4px;}
 .q-pill{flex:1;text-align:center;padding:5px 2px;border-radius:6px;font-size:9px;font-weight:600;border:0.5px solid transparent;letter-spacing:0.02em;}
 .q-done{background:#dff0c8;color:#2d5a0e;border-color:rgba(59,109,17,0.2);}
+.q-done-late{background:#c5e8d9;color:#1a5c40;border-color:rgba(74,143,111,0.22);}
 .q-in-progress{background:#dceefa;color:#0b3d78;border-color:rgba(24,95,165,0.2);}
 .q-at-risk{background:#fde8c5;color:#5a2e00;border-color:rgba(133,79,11,0.2);}
 .q-upcoming{background:#eceae0;color:#7a7870;}
@@ -92,20 +93,31 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 .sg-item{display:flex;align-items:flex-start;gap:9px;padding:7px 12px;border-radius:9px;background:#f8f8f5;font-size:11px;color:#6b6966;line-height:1.5;transition:background 0.12s,box-shadow 0.12s;cursor:pointer;user-select:none;position:relative;}
 .sg-item:hover{box-shadow:0 0 0 1.5px rgba(0,0,0,0.12);}
 .sg-item.sg-done{background:#f0f8e8;color:#4a7a22;}
+.sg-item.sg-done-late{background:#d4f0e4;color:#1a5c40;}
 .sg-item.sg-in-progress{background:#eef5fd;color:#0b3d78;}
 .sg-item.sg-at-risk{background:#fdf4e7;color:#5a2e00;}
 .sg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;transition:transform 0.15s;}
 .sg-item:hover .sg-dot{transform:scale(1.4);}
 .sg-text{flex:1;}
+.sg-edit-icon{font-size:11px;opacity:0.35;flex-shrink:0;transition:opacity 0.15s;pointer-events:none;line-height:1;}
+.sg-item:hover .sg-edit-icon{opacity:0.75;}
 /* status picker popover */
 .sg-picker{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none;background:#fff;border:0.5px solid rgba(0,0,0,0.14);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;overflow:hidden;flex-direction:column;}
 .sg-item:hover .sg-picker{display:flex;}
 .sg-pick-opt{padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.1s;}
 .sg-pick-opt:hover{filter:brightness(0.94);}
 .sg-pick-done{background:#f0f8e8;color:#2d5a0e;}
+.sg-pick-done-late{background:#d4f0e4;color:#1a5c40;}
 .sg-pick-in-progress{background:#eef5fd;color:#0b3d78;}
 .sg-pick-at-risk{background:#fdf4e7;color:#5a2e00;}
 .sg-pick-upcoming{background:#f8f7f2;color:#7a7870;}
+/* status edit hint row */
+.sg-edit-hint-row{font-size:10px;color:#b0aea5;margin-bottom:7px;display:flex;align-items:center;gap:4px;font-weight:500;}
+/* ARR input prominence */
+.arr-input-section{background:#f4f9ff;border:1px solid rgba(24,95,165,0.18);border-radius:10px;padding:12px 16px;display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.arr-input-section-label{font-size:10px;font-weight:700;color:#185FA5;text-transform:uppercase;letter-spacing:0.07em;}
+.arr-input-big{width:160px;padding:10px 16px;font-size:16px;font-weight:600;border-radius:9px;border:1.5px solid rgba(24,95,165,0.3);background:#fff;color:#1a1a18;font-family:inherit;text-align:center;transition:border-color 0.15s,box-shadow 0.15s;}
+.arr-input-big:focus{outline:none;border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,0.12);}
 .block-divider{height:0.5px;background:rgba(0,0,0,0.07);margin:14px 0;}
 
 /* ── Partners card ── */
@@ -139,17 +151,17 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 <div class="arr-card">
   <div class="arr-top">
     <div class="arr-left">
-      <div class="arr-label">ARR progress</div>
+      <div class="arr-label">ARR progress — 2026</div>
       <div class="arr-numbers">
         <span class="arr-current" id="arrDisplay">—</span>
         <span class="arr-target">/ $13.4M target</span>
         <span class="arr-pct" id="arrPct" style="display:none"></span>
       </div>
     </div>
-    <div class="arr-input-group">
-      <span class="arr-input-label">Current ARR (editable)</span>
-      <input class="arr-input" id="arrInput" type="text" placeholder="loading…" aria-label="Current ARR" />
-      <span class="arr-input-hint">edit to update · auto-saved</span>
+    <div class="arr-input-section">
+      <div class="arr-input-section-label">✏ Enter current ARR</div>
+      <input class="arr-input-big" id="arrInput" type="text" placeholder="e.g. 2.4M" aria-label="Current ARR" />
+      <span class="arr-input-hint" style="font-size:10px;color:#888780;text-align:center;">type any format · auto-saved</span>
     </div>
   </div>
   <div class="arr-bar-wrap" aria-hidden="true">
@@ -165,7 +177,9 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 </div>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>done</div>
+  <span style="font-size:10px;font-weight:600;color:#b0aea5;text-transform:uppercase;letter-spacing:0.06em;margin-right:4px;">Status key:</span>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>done on time</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4A8F6F"></div>done late</div>
   <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>in progress</div>
   <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>at risk</div>
   <div class="legend-item"><div class="legend-dot" style="background:#B4B2A9"></div>upcoming</div>
@@ -207,6 +221,7 @@ body{font-family:-apple-system,system-ui,sans-serif;background:#f0efe8;color:#1a
 <script>
 const C = {
   done:          { chart:'#3B6D11', bg:'#EAF3DE', text:'#27500A' },
+  'done-late':   { chart:'#4A8F6F', bg:'#d4f0e4', text:'#1a5c40' },
   'in-progress': { chart:'#185FA5', bg:'#E6F1FB', text:'#0C447C' },
   'at-risk':     { chart:'#854F0B', bg:'#FAEEDA', text:'#633806' },
   upcoming:      { chart:'#D3D1C7', bg:'#F1EFE8', text:'#5F5E5A' },
@@ -399,6 +414,7 @@ function makeSVGDonut(ct, size) {
 
   const segs = [
     { val: ct.d,  color: '#3B6D11' },
+    { val: ct.dl, color: '#4A8F6F' },
     { val: ct.ip, color: '#185FA5' },
     { val: ct.ar, color: '#854F0B' },
     { val: ct.up, color: '#D3D1C7' },
@@ -429,17 +445,18 @@ function makeSVGDonut(ct, size) {
 
 // ── Goal counts ────────────────────────────────────────────
 function counts(goal) {
-  var d=0,ip=0,ar=0,up=0;
+  var d=0,dl=0,ip=0,ar=0,up=0;
   goal.quarters.forEach(function(q){ q.subgoals.forEach(function(s){
     if(s.status==='done') d++;
+    else if(s.status==='done-late') dl++;
     else if(s.status==='in-progress') ip++;
     else if(s.status==='at-risk') ar++;
     else up++;
   });});
-  return {d:d,ip:ip,ar:ar,up:up,total:d+ip+ar+up};
+  return {d:d,dl:dl,ip:ip,ar:ar,up:up,total:d+dl+ip+ar+up};
 }
 
-function statusLabel(s){return{done:'done','in-progress':'in progress','at-risk':'at risk',upcoming:'upcoming'}[s]||s;}
+function statusLabel(s){return{done:'done on time','done-late':'done late','in-progress':'in progress','at-risk':'at risk',upcoming:'upcoming'}[s]||s;}
 
 // ── Render ─────────────────────────────────────────────────
 function renderCards() {
@@ -449,8 +466,9 @@ function renderCards() {
 
   goals.forEach(function(g,i){
     var ct=counts(g);
-    var active=ct.d+ct.ip+ct.ar;
-    var pct=Math.round((active/ct.total)*100);
+    var done=ct.d+ct.dl;
+    var active=done+ct.ip+ct.ar;
+    var pct=Math.round((done/ct.total)*100);
 
     var card=document.createElement('div');
     card.className='goal-card'+(i===selected?' selected':'');
@@ -463,10 +481,10 @@ function renderCards() {
         makeSVGDonut(ct)+
         '<div class="chart-center">'+
           '<div class="chart-pct">'+pct+'%</div>'+
-          '<div class="chart-sublabel">active</div>'+
+          '<div class="chart-sublabel">complete</div>'+
         '</div>'+
       '</div>'+
-      '<div class="subcount">'+active+' of '+ct.total+' sub-goals active</div>'+
+      '<div class="subcount">'+done+' of '+ct.total+' sub-goals complete</div>'+
       '<div class="q-pills">'+
         g.quarters.map(function(q){ return '<div class="q-pill q-'+q.status+'">'+q.label+'</div>'; }).join('')+
       '</div>';
@@ -491,16 +509,19 @@ function renderDetail(idx) {
         '<div class="q-block-title">'+q.title+'</div>'+
         '<div class="q-status-badge" style="background:'+col.bg+';color:'+col.text+'">'+statusLabel(q.status)+'</div>'+
       '</div>'+
+      '<div class="sg-edit-hint-row">✏ hover any sub-goal to update its status</div>'+
       '<div class="sg-list">'+
         q.subgoals.map(function(sg, si){
           var sc=C[sg.status]||C.upcoming;
-          var statusClass = sg.status==='done' ? ' sg-done' : sg.status==='in-progress' ? ' sg-in-progress' : sg.status==='at-risk' ? ' sg-at-risk' : '';
+          var statusClass = sg.status==='done' ? ' sg-done' : sg.status==='done-late' ? ' sg-done-late' : sg.status==='in-progress' ? ' sg-in-progress' : sg.status==='at-risk' ? ' sg-at-risk' : '';
           var dataAttr = ' data-gi="'+idx+'" data-qi="'+qi+'" data-si="'+si+'"';
-          return '<div class="sg-item'+statusClass+'"'+dataAttr+' onclick="pickStatus(event,this)">'+
+          return '<div class="sg-item'+statusClass+'"'+dataAttr+' onclick="pickStatus(event,this)" title="Hover to change status">'+
             '<div class="sg-dot" style="background:'+sc.chart+'"></div>'+
             '<span class="sg-text">'+sg.text+'</span>'+
+            '<span class="sg-edit-icon">✏</span>'+
             '<div class="sg-picker" onclick="event.stopPropagation()">'+
-              '<div class="sg-pick-opt sg-pick-done" onclick="setStatus(event,'+idx+','+qi+','+si+',\'done\')">✓ done</div>'+
+              '<div class="sg-pick-opt sg-pick-done" onclick="setStatus(event,'+idx+','+qi+','+si+',\'done\')">✓ done on time</div>'+
+              '<div class="sg-pick-opt sg-pick-done-late" onclick="setStatus(event,'+idx+','+qi+','+si+',\'done-late\')">✓ done late</div>'+
               '<div class="sg-pick-opt sg-pick-in-progress" onclick="setStatus(event,'+idx+','+qi+','+si+',\'in-progress\')">● in progress</div>'+
               '<div class="sg-pick-opt sg-pick-at-risk" onclick="setStatus(event,'+idx+','+qi+','+si+',\'at-risk\')">⚠ at risk</div>'+
               '<div class="sg-pick-opt sg-pick-upcoming" onclick="setStatus(event,'+idx+','+qi+','+si+',\'upcoming\')">○ upcoming</div>'+
@@ -594,9 +615,11 @@ function setStatus(e, gi, qi, si, newStatus) {
   var subs = goals[gi].quarters[qi].subgoals;
   var hasRisk = subs.some(function(s){ return s.status==='at-risk'; });
   var hasIP   = subs.some(function(s){ return s.status==='in-progress'; });
-  var allDone = subs.every(function(s){ return s.status==='done'; });
+  var allDone = subs.every(function(s){ return s.status==='done' || s.status==='done-late'; });
+  var allDoneLate = allDone && subs.some(function(s){ return s.status==='done-late'; });
   var allUp   = subs.every(function(s){ return s.status==='upcoming'; });
-  if (allDone) goals[gi].quarters[qi].status = 'done';
+  if (allDone && allDoneLate) goals[gi].quarters[qi].status = 'done-late';
+  else if (allDone) goals[gi].quarters[qi].status = 'done';
   else if (allUp) goals[gi].quarters[qi].status = 'upcoming';
   else if (hasRisk) goals[gi].quarters[qi].status = 'at-risk';
   else if (hasIP) goals[gi].quarters[qi].status = 'in-progress';
